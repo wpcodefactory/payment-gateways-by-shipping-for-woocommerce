@@ -1,0 +1,121 @@
+#: includes/class-alg-wc-pgbsm.php:130
+msgid "Settings"
+msgstr ""
+
+#: includes/class-alg-wc-pgbsm.php:133
+msgid "Go Pro"
+msgstr ""
+
+#: includes/settings/class-alg-wc-pgbsm-settings-general.php:25
+msgid "General"
+msgstr ""
+
+#: includes/settings/class-alg-wc-pgbsm-settings-general.php:64
+msgid "Select all"
+msgstr ""
+
+#: includes/settings/class-alg-wc-pgbsm-settings-general.php:65
+msgid "Deselect all"
+msgstr ""
+
+#: includes/settings/class-alg-wc-pgbsm-settings-general.php:141
+msgid "Payment Gateways by Shipping Options"
+msgstr ""
+
+#: includes/settings/class-alg-wc-pgbsm-settings-general.php:146
+#: includes/settings/class-alg-wc-settings-pgbsm.php:25
+msgid "Payment Gateways by Shipping"
+msgstr ""
+
+#: includes/settings/class-alg-wc-pgbsm-settings-general.php:147
+msgid "Enable plugin"
+msgstr ""
+
+#: includes/settings/class-alg-wc-pgbsm-settings-general.php:148
+msgid "Set \"enable for shipping methods\" for WooCommerce payment gateways."
+msgstr ""
+
+#: includes/settings/class-alg-wc-pgbsm-settings-general.php:163
+msgid "General Options"
+msgstr ""
+
+#: includes/settings/class-alg-wc-pgbsm-settings-general.php:168
+msgid "Use shipping instances"
+msgstr ""
+
+#: includes/settings/class-alg-wc-pgbsm-settings-general.php:169
+#: includes/settings/class-alg-wc-pgbsm-settings-general.php:230
+msgid "Enable"
+msgstr ""
+
+#: includes/settings/class-alg-wc-pgbsm-settings-general.php:170
+msgid ""
+"Enable this if you want to use shipping methods instances (with shipping "
+"zones) instead of shipping methods."
+msgstr ""
+
+#: includes/settings/class-alg-wc-pgbsm-settings-general.php:171
+msgid "Save changes after enabling this option."
+msgstr ""
+
+#: includes/settings/class-alg-wc-pgbsm-settings-general.php:183
+msgid "Payment Gateways"
+msgstr ""
+
+#: includes/settings/class-alg-wc-pgbsm-settings-general.php:185
+msgid ""
+"If payment gateway is only available for certain methods, set it up here. "
+"Leave blank to enable for all methods."
+msgstr ""
+
+#: includes/settings/class-alg-wc-pgbsm-settings-general.php:197
+#, php-format
+msgid ""
+"You will need the \"%s\" plugin to set the option for the \"%s\" gateway."
+msgstr ""
+
+#: includes/settings/class-alg-wc-pgbsm-settings-general.php:199
+msgid "Payment Gateways by Shipping for WooCommerce Pro"
+msgstr ""
+
+#: includes/settings/class-alg-wc-pgbsm-settings-general.php:204
+msgid "Enable for shipping methods"
+msgstr ""
+
+#: includes/settings/class-alg-wc-pgbsm-settings-general.php:211
+msgid "Select shipping methods"
+msgstr ""
+
+#: includes/settings/class-alg-wc-pgbsm-settings-general.php:224
+msgid "Advanced Options"
+msgstr ""
+
+#: includes/settings/class-alg-wc-pgbsm-settings-general.php:229
+msgid "Reset chosen payment method"
+msgstr ""
+
+#: includes/settings/class-alg-wc-pgbsm-settings-general.php:231
+msgid ""
+"Enable this if cart fees (e.g. COD fees) are not removed when payment method "
+"becomes unavailable."
+msgstr ""
+
+#: includes/settings/class-alg-wc-settings-pgbsm.php:42
+msgid "Reset Settings"
+msgstr ""
+
+#: includes/settings/class-alg-wc-settings-pgbsm.php:47
+msgid "Reset section settings"
+msgstr ""
+
+#: includes/settings/class-alg-wc-settings-pgbsm.php:48
+msgid "Reset"
+msgstr ""
+
+#: includes/settings/class-alg-wc-settings-pgbsm.php:49
+msgid "Check the box and save changes to reset."
+msgstr ""
+
+#: includes/settings/class-alg-wc-settings-pgbsm.php:88
+msgid "Your settings have been reset."
+msgstr ""
