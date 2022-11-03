@@ -1,5 +1,39 @@
-#: includes/class-alg-wc-pgbsm.php:130
-msgid "Settings"
+# Copyright (C) 2022 WPFactory
+# This file is distributed under the same license as the Payment Gateways by Shipping for WooCommerce Pro plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: payment-gateways-by-shipping-for-woocommerce 1.4.2-dev\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/payment-gateways-by-shipping-for-woocommerce\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2022-11-03T15:54:42+01:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.4.0\n"
+"X-Domain: payment-gateways-by-shipping-for-woocommerce\n"
+
+#. Plugin Name of the plugin
+#: includes/settings/class-alg-wc-pgbsm-settings-general.php:199
+msgid "Payment Gateways by Shipping for WooCommerce Pro"
+msgstr ""
+
+#. Plugin URI of the plugin
+msgid "https://wpfactory.com/item/payment-gateways-by-shipping-for-woocommerce/"
+msgstr ""
+
+#. Description of the plugin
+#: includes/settings/class-alg-wc-pgbsm-settings-general.php:148
+msgid "Set \"enable for shipping methods\" for WooCommerce payment gateways."
+msgstr ""
+
+#. Author of the plugin
+msgid "WPFactory"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://wpfactory.com"
 msgstr ""
 
 #: includes/class-alg-wc-pgbsm.php:133
@@ -31,10 +65,6 @@ msgstr ""
 msgid "Enable plugin"
 msgstr ""
 
-#: includes/settings/class-alg-wc-pgbsm-settings-general.php:148
-msgid "Set \"enable for shipping methods\" for WooCommerce payment gateways."
-msgstr ""
-
 #: includes/settings/class-alg-wc-pgbsm-settings-general.php:163
 msgid "General Options"
 msgstr ""
@@ -49,9 +79,7 @@ msgid "Enable"
 msgstr ""
 
 #: includes/settings/class-alg-wc-pgbsm-settings-general.php:170
-msgid ""
-"Enable this if you want to use shipping methods instances (with shipping "
-"zones) instead of shipping methods."
+msgid "Enable this if you want to use shipping methods instances (with shipping zones) instead of shipping methods."
 msgstr ""
 
 #: includes/settings/class-alg-wc-pgbsm-settings-general.php:171
@@ -63,27 +91,11 @@ msgid "Payment Gateways"
 msgstr ""
 
 #: includes/settings/class-alg-wc-pgbsm-settings-general.php:185
-msgid ""
-"If payment gateway is only available for certain methods, set it up here. "
-"Leave blank to enable for all methods."
+msgid "If payment gateway is only available for certain methods, set it up here. Leave blank to enable for all methods."
 msgstr ""
 
 #: includes/settings/class-alg-wc-pgbsm-settings-general.php:197
-#, php-format
-msgid ""
-"You will need the \"%s\" plugin to set the option for the \"%s\" gateway."
-msgstr ""
-
-#: includes/settings/class-alg-wc-pgbsm-settings-general.php:199
-msgid "Payment Gateways by Shipping for WooCommerce Pro"
-msgstr ""
-
-#: includes/settings/class-alg-wc-pgbsm-settings-general.php:204
-msgid "Enable for shipping methods"
-msgstr ""
-
-#: includes/settings/class-alg-wc-pgbsm-settings-general.php:211
-msgid "Select shipping methods"
+msgid "You will need the \"%s\" plugin to set the option for the \"%s\" gateway."
 msgstr ""
 
 #: includes/settings/class-alg-wc-pgbsm-settings-general.php:224
@@ -95,9 +107,7 @@ msgid "Reset chosen payment method"
 msgstr ""
 
 #: includes/settings/class-alg-wc-pgbsm-settings-general.php:231
-msgid ""
-"Enable this if cart fees (e.g. COD fees) are not removed when payment method "
-"becomes unavailable."
+msgid "Enable this if cart fees (e.g. COD fees) are not removed when payment method becomes unavailable."
 msgstr ""
 
 #: includes/settings/class-alg-wc-settings-pgbsm.php:42
