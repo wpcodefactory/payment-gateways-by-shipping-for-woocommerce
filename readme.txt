@@ -3,7 +3,7 @@ Contributors: wpcodefactory, algoritmika, anbinder
 Tags: woocommerce, payment gateways, payment gateway, shipping, woo commerce
 Requires at least: 4.4
 Tested up to: 6.1
-Stable tag: 1.4.1
+Stable tag: 1.4.2
 License: GNU General Public License v3.0
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -32,7 +32,7 @@ The free version allows you to set shipping methods for all four standard paymen
 
 == Changelog ==
 
-= 1.4.2 - 02/11/2022 =
+= 1.4.2 - 03/11/2022 =
 * WC tested up to: 7.0.
 * Tested up to: 6.1.
 * Readme.txt updated.
