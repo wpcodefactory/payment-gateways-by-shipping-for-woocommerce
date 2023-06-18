@@ -3,12 +3,12 @@
 Plugin Name: Payment Gateways by Shipping for WooCommerce
 Plugin URI: https://wpfactory.com/item/payment-gateways-by-shipping-for-woocommerce/
 Description: Set "enable for shipping methods" for WooCommerce payment gateways.
-Version: 1.4.2
+Version: 1.4.3
 Author: WPFactory
 Author URI: https://wpfactory.com
 Text Domain: payment-gateways-by-shipping-for-woocommerce
 Domain Path: /langs
-WC tested up to: 7.0
+WC tested up to: 7.8
 */
 
 defined( 'ABSPATH' ) || exit;
