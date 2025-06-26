@@ -2,7 +2,7 @@
 /**
  * Payment Gateways by Shipping for WooCommerce - Core Class
  *
- * @version 1.3.0
+ * @version 1.5.0
  * @since   1.0.0
  *
  * @author  Algoritmika Ltd.
@@ -15,19 +15,41 @@ if ( ! class_exists( 'Alg_WC_Payment_Gateways_by_Shipping_Core' ) ) :
 class Alg_WC_Payment_Gateways_by_Shipping_Core {
 
 	/**
+	 * use_shipping_instance.
+	 *
+	 * @version 1.5.0
+	 * @since   1.5.0
+	 */
+	public $use_shipping_instance;
+
+	/**
 	 * Constructor.
 	 *
-	 * @version 1.3.0
+	 * @version 1.5.0
 	 * @since   1.0.0
+	 *
+	 * @todo    (v1.5.0) block-based checkout compatibility!
 	 */
 	function __construct() {
-		if ( 'yes' === get_option( 'alg_wc_pgbsm_plugin_enabled', 'yes' ) ) {
-			$this->use_shipping_instance = ( 'yes' === get_option( 'alg_wc_pgbsm_use_shipping_instance', 'no' ) );
-			add_filter( 'woocommerce_available_payment_gateways', array( $this, 'available_payment_gateways' ), PHP_INT_MAX, 1 );
-			if ( 'yes' === get_option( 'alg_wc_pgbsm_reset_payment_method_on_totals', 'no' ) ) {
-				add_action( 'woocommerce_before_calculate_totals', array( $this, 'maybe_reset_chosen_payment_method' ), 1, 0 );
-			}
+
+		$this->use_shipping_instance = ( 'yes' === get_option( 'alg_wc_pgbsm_use_shipping_instance', 'no' ) );
+
+		add_filter(
+			'woocommerce_available_payment_gateways',
+			array( $this, 'available_payment_gateways' ),
+			PHP_INT_MAX,
+			1
+		);
+
+		if ( 'yes' === get_option( 'alg_wc_pgbsm_reset_payment_method_on_totals', 'no' ) ) {
+			add_action(
+				'woocommerce_before_calculate_totals',
+				array( $this, 'maybe_reset_chosen_payment_method' ),
+				1,
+				0
+			);
 		}
+
 	}
 
 	/**
@@ -36,40 +58,56 @@ class Alg_WC_Payment_Gateways_by_Shipping_Core {
 	 * @version 1.3.0
 	 * @since   1.3.0
 	 *
-	 * @todo    [next] (dev) test with https://wpfactory.com/blog/how-to-add-cart-fees-in-woocommerce-with-php/
-	 * @todo    [maybe] (dev) `woocommerce_cart_calculate_fees` instead of `woocommerce_before_calculate_totals`?
-	 * @todo    [maybe] (dev) `wc_smart_cod_fee`: `return ( ! in_array( 'cod', array_keys( WC()->payment_gateways->get_available_payment_gateways() ) ) ? 0 : $fee )`?
+	 * @todo    (dev) test with https://wpfactory.com/blog/how-to-add-cart-fees-in-woocommerce-with-php/
+	 * @todo    (dev) `woocommerce_cart_calculate_fees` instead of `woocommerce_before_calculate_totals`?
+	 * @todo    (dev) `wc_smart_cod_fee`: `return ( ! in_array( 'cod', array_keys( WC()->payment_gateways->get_available_payment_gateways() ) ) ? 0 : $fee )`?
 	 */
 	function maybe_reset_chosen_payment_method() {
-		if ( '' != ( $chosen_payment_method = WC()->session->get( 'chosen_payment_method' ) ) || isset( $_POST['payment_method'] ) ) {
+		// phpcs:disable WordPress.Security.NonceVerification.Missing
+		if (
+			'' != ( $chosen_payment_method = WC()->session->get( 'chosen_payment_method' ) ) ||
+			isset( $_POST['payment_method'] )
+		) {
 			$available_gateways = WC()->payment_gateways->get_available_payment_gateways();
 			$available_gateways = array_keys( $available_gateways );
-			if ( isset( $_POST['payment_method'] ) && ! in_array( $_POST['payment_method'], $available_gateways ) ) {
+			if (
+				isset( $_POST['payment_method'] ) &&
+				! in_array( $_POST['payment_method'], $available_gateways )
+			) {
 				$_POST['payment_method'] = '';
 			}
-			if ( '' != $chosen_payment_method && ! in_array( $chosen_payment_method, $available_gateways ) ) {
+			if (
+				'' != $chosen_payment_method &&
+				! in_array( $chosen_payment_method, $available_gateways )
+			) {
 				WC()->session->set( 'chosen_payment_method', '' );
 			}
 		}
+		// phpcs:enable WordPress.Security.NonceVerification.Missing
 	}
 
 	/**
 	 * available_payment_gateways.
 	 *
-	 * @version 1.1.0
+	 * @version 1.5.0
 	 * @since   1.0.0
 	 *
-	 * @todo    [next] (dev) optionally `maybe_reset_chosen_payment_method()` right after `unset()`?
+	 * @todo    (dev) optionally `maybe_reset_chosen_payment_method()` right after `unset()`?
 	 */
-	function available_payment_gateways( $_available_gateways ) {
-		foreach ( $_available_gateways as $key => $gateway ) {
-			$enable_for_methods = get_option( 'alg_wc_pgbsm_enable_' . ( $this->use_shipping_instance ? 'instance_' : '' ) . $key, '' );
-			if ( ! empty( $enable_for_methods ) && ! $this->check_if_enabled_for_methods( $key, $enable_for_methods ) ) {
-				unset( $_available_gateways[ $key ] );
-				continue;
+	function available_payment_gateways( $available_gateways ) {
+		foreach ( $available_gateways as $key => $gateway ) {
+			$enable_for_methods = get_option(
+				'alg_wc_pgbsm_enable_' . ( $this->use_shipping_instance ? 'instance_' : '' ) . $key,
+				''
+			);
+			if (
+				! empty( $enable_for_methods ) &&
+				! $this->check_if_enabled_for_methods( $key, $enable_for_methods )
+			) {
+				unset( $available_gateways[ $key ] );
 			}
 		}
-		return $_available_gateways;
+		return $available_gateways;
 	}
 
 	/**
@@ -80,8 +118,8 @@ class Alg_WC_Payment_Gateways_by_Shipping_Core {
 	 *
 	 * @see     https://woocommerce.github.io/code-reference/classes/WC-Gateway-COD.html#method_is_available
 	 *
-	 * @todo    [next] (dev) do we really need to check all the standard stuff like `WC()->cart->needs_shipping()` etc.?
-	 * @todo    [next] (dev) cache result?
+	 * @todo    (dev) do we really need to check all the standard stuff like `WC()->cart->needs_shipping()` etc.?
+	 * @todo    (dev) cache result?
 	 */
 	function check_if_enabled_for_methods( $gateway_key, $enable_for_methods ) {
 

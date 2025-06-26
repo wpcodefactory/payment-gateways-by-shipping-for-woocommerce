@@ -3,13 +3,16 @@
 Plugin Name: Payment Gateways by Shipping for WooCommerce
 Plugin URI: https://wpfactory.com/item/payment-gateways-by-shipping-for-woocommerce/
 Description: Set "enable for shipping methods" for WooCommerce payment gateways.
-Version: 1.4.5
+Version: 1.5.0
 Author: WPFactory
 Author URI: https://wpfactory.com
+Requires at least: 4.4
 Text Domain: payment-gateways-by-shipping-for-woocommerce
 Domain Path: /langs
-WC tested up to: 9.1
+WC tested up to: 9.9
 Requires Plugins: woocommerce
+License: GNU General Public License v3.0
+License URI: http://www.gnu.org/licenses/gpl-3.0.html
 */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,23 +21,27 @@ if ( 'payment-gateways-by-shipping-for-woocommerce.php' === basename( __FILE__ )
 	/**
 	 * Check if Pro plugin version is activated.
 	 *
-	 * @version 1.4.0
+	 * @version 1.5.0
 	 * @since   1.4.0
 	 */
 	$plugin = 'payment-gateways-by-shipping-for-woocommerce-pro/payment-gateways-by-shipping-for-woocommerce-pro.php';
 	if (
 		in_array( $plugin, (array) get_option( 'active_plugins', array() ), true ) ||
-		( is_multisite() && array_key_exists( $plugin, (array) get_site_option( 'active_sitewide_plugins', array() ) ) )
+		(
+			is_multisite() &&
+			array_key_exists( $plugin, (array) get_site_option( 'active_sitewide_plugins', array() ) )
+		)
 	) {
+		defined( 'ALG_WC_PAYMENT_GATEWAYS_BY_SHIPPING_FILE_FREE' ) || define( 'ALG_WC_PAYMENT_GATEWAYS_BY_SHIPPING_FILE_FREE', __FILE__ );
 		return;
 	}
 }
 
-defined( 'ALG_WC_PAYMENT_GATEWAYS_BY_SHIPPING_VERSION' ) || define( 'ALG_WC_PAYMENT_GATEWAYS_BY_SHIPPING_VERSION', '1.4.5' );
+defined( 'ALG_WC_PAYMENT_GATEWAYS_BY_SHIPPING_VERSION' ) || define( 'ALG_WC_PAYMENT_GATEWAYS_BY_SHIPPING_VERSION', '1.5.0' );
 
 defined( 'ALG_WC_PAYMENT_GATEWAYS_BY_SHIPPING_FILE' ) || define( 'ALG_WC_PAYMENT_GATEWAYS_BY_SHIPPING_FILE', __FILE__ );
 
-require_once( 'includes/class-alg-wc-pgbsm.php' );
+require_once plugin_dir_path( __FILE__ ) . 'includes/class-alg-wc-pgbsm.php';
 
 if ( ! function_exists( 'alg_wc_pgbsm' ) ) {
 	/**

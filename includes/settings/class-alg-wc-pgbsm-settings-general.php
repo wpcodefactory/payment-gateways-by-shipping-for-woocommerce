@@ -2,7 +2,7 @@
 /**
  * Payment Gateways by Shipping for WooCommerce - General Section Settings
  *
- * @version 1.4.1
+ * @version 1.5.0
  * @since   1.0.0
  *
  * @author  Algoritmika Ltd.
@@ -21,10 +21,14 @@ class Alg_WC_Payment_Gateways_by_Shipping_Settings_General extends Alg_WC_Paymen
 	 * @since   1.0.0
 	 */
 	function __construct() {
+
 		$this->id   = '';
 		$this->desc = __( 'General', 'payment-gateways-by-shipping-for-woocommerce' );
+
 		parent::__construct();
+
 		add_action( 'admin_footer', array( $this, 'add_admin_script' ) );
+
 	}
 
 	/**
@@ -33,20 +37,31 @@ class Alg_WC_Payment_Gateways_by_Shipping_Settings_General extends Alg_WC_Paymen
 	 * @version 1.4.0
 	 * @since   1.4.0
 	 *
-	 * @todo    [next] (dev) move this to a separate js file
-	 * @todo    [next] (dev) load on needed pages only
+	 * @todo    (dev) move this to a separate js file
+	 * @todo    (dev) load on needed pages only
 	 */
 	function add_admin_script() {
 		?><script>
-			jQuery( document ).ready( function() {
-				jQuery( '.alg-wc-pgbsm-select-all' ).click( function( event ) {
+			jQuery( document ).ready( function () {
+				jQuery( '.alg-wc-pgbsm-select-all' ).click( function ( event ) {
 					event.preventDefault();
-					jQuery( this ).closest( 'td' ).find( 'select.chosen_select' ).select2( 'destroy' ).find( 'option' ).prop( 'selected', 'selected' ).end().select2();
+					jQuery( this )
+						.closest( 'td' )
+						.find( 'select.chosen_select' )
+						.select2( 'destroy' )
+						.find( 'option' )
+						.prop( 'selected', 'selected' )
+						.end()
+						.select2();
 					return false;
 				} );
-				jQuery( '.alg-wc-pgbsm-deselect-all' ).click( function( event ) {
+				jQuery( '.alg-wc-pgbsm-deselect-all' ).click( function ( event ) {
 					event.preventDefault();
-					jQuery( this ).closest( 'td' ).find( 'select.chosen_select' ).val( '' ).change();
+					jQuery( this )
+						.closest( 'td' )
+						.find( 'select.chosen_select' )
+						.val( '' )
+						.change();
 					return false;
 				} );
 			} );
@@ -60,9 +75,14 @@ class Alg_WC_Payment_Gateways_by_Shipping_Settings_General extends Alg_WC_Paymen
 	 * @since   1.4.0
 	 */
 	function get_select_all_buttons() {
-		return
-			'<a href="#" class="button alg-wc-pgbsm-select-all">'   . __( 'Select all', 'payment-gateways-by-shipping-for-woocommerce' )   . '</a>' . ' ' .
-			'<a href="#" class="button alg-wc-pgbsm-deselect-all">' . __( 'Deselect all', 'payment-gateways-by-shipping-for-woocommerce' ) . '</a>';
+		return (
+			'<a href="#" class="button alg-wc-pgbsm-select-all">' .
+				__( 'Select all', 'payment-gateways-by-shipping-for-woocommerce' ) .
+			'</a>' . ' ' .
+			'<a href="#" class="button alg-wc-pgbsm-deselect-all">' .
+				__( 'Deselect all', 'payment-gateways-by-shipping-for-woocommerce' ) .
+			'</a>'
+		);
 	}
 
 	/**
@@ -88,7 +108,7 @@ class Alg_WC_Payment_Gateways_by_Shipping_Settings_General extends Alg_WC_Paymen
 	function get_shipping_zones( $include_empty_zone = true ) {
 		$zones = WC_Shipping_Zones::get_zones();
 		if ( $include_empty_zone ) {
-			$zone                                                = new WC_Shipping_Zone( 0 );
+			$zone = new WC_Shipping_Zone( 0 );
 			$zones[ $zone->get_id() ]                            = $zone->get_data();
 			$zones[ $zone->get_id() ]['zone_id']                 = $zone->get_id();
 			$zones[ $zone->get_id() ]['formatted_zone_location'] = $zone->get_formatted_location();
@@ -117,7 +137,10 @@ class Alg_WC_Payment_Gateways_by_Shipping_Settings_General extends Alg_WC_Paymen
 						'shipping_method_instance_id' => $shipping_method->instance_id,
 					);
 				} else {
-					$shipping_methods[ $shipping_method->instance_id ] = $zone_data['zone_name'] . ': ' . $shipping_method->title;
+					$shipping_methods[ $shipping_method->instance_id ] = (
+						$zone_data['zone_name'] . ': ' .
+						$shipping_method->title
+					);
 				}
 			}
 		}
@@ -127,48 +150,41 @@ class Alg_WC_Payment_Gateways_by_Shipping_Settings_General extends Alg_WC_Paymen
 	/**
 	 * get_settings.
 	 *
-	 * @version 1.4.1
+	 * @version 1.5.0
 	 * @since   1.0.0
 	 *
-	 * @todo    [next] (feature) per shipping zone?
-	 * @todo    [maybe] (desc) Reset chosen payment method: better desc?
-	 * @todo    [maybe] (dev) Reset chosen payment method: remove or at least default to `yes`?
-	 * @todo    [maybe] (dev) remove COD (and maybe other payment gateways) that already have `enable_for_methods` option?
+	 * @todo    (feature) per shipping zone?
+	 * @todo    (desc) Reset chosen payment method: better desc?
+	 * @todo    (dev) Reset chosen payment method: remove or at least default to `yes`?
+	 * @todo    (dev) remove COD (and maybe other payment gateways) that already have `enable_for_methods` option?
 	 */
 	function get_settings() {
-		$main_settings = array(
-			array(
-				'title'    => __( 'Payment Gateways by Shipping Options', 'payment-gateways-by-shipping-for-woocommerce' ),
-				'type'     => 'title',
-				'id'       => 'alg_wc_pgbsm_options',
-			),
-			array(
-				'title'    => __( 'Payment Gateways by Shipping', 'payment-gateways-by-shipping-for-woocommerce' ),
-				'desc'     => '<strong>' . __( 'Enable plugin', 'payment-gateways-by-shipping-for-woocommerce' ) . '</strong>',
-				'desc_tip' => __( 'Set "enable for shipping methods" for WooCommerce payment gateways.', 'payment-gateways-by-shipping-for-woocommerce' ),
-				'id'       => 'alg_wc_pgbsm_plugin_enabled',
-				'default'  => 'yes',
-				'type'     => 'checkbox',
-			),
-			array(
-				'type'     => 'sectionend',
-				'id'       => 'alg_wc_pgbsm_options',
-			),
-		);
+
 		$use_shipping_instance = ( 'yes' === get_option( 'alg_wc_pgbsm_use_shipping_instance', 'no' ) );
-		$shipping_methods      = apply_filters( 'alg_wc_pgbsm_shipping_methods_settings_options',
-			( $use_shipping_instance ? $this->get_shipping_methods_instances() : $this->get_shipping_methods() ), $use_shipping_instance );
+		$shipping_methods      = apply_filters(
+			'alg_wc_pgbsm_shipping_methods_settings_options',
+			(
+				$use_shipping_instance ?
+				$this->get_shipping_methods_instances() :
+				$this->get_shipping_methods()
+			),
+			$use_shipping_instance
+		);
+
 		$general_settings = array(
 			array(
 				'title'    => __( 'General Options', 'payment-gateways-by-shipping-for-woocommerce' ),
+				'desc_tip' => __( 'Set "enable for shipping methods" for WooCommerce payment gateways.', 'payment-gateways-by-shipping-for-woocommerce' ),
 				'type'     => 'title',
 				'id'       => 'alg_wc_pgbsm_general_options',
 			),
 			array(
 				'title'    => __( 'Use shipping instances', 'payment-gateways-by-shipping-for-woocommerce' ),
 				'desc'     => __( 'Enable', 'payment-gateways-by-shipping-for-woocommerce' ),
-				'desc_tip' => __( 'Enable this if you want to use shipping methods instances (with shipping zones) instead of shipping methods.',
-					'payment-gateways-by-shipping-for-woocommerce' ) . ' ' . __( 'Save changes after enabling this option.', 'payment-gateways-by-shipping-for-woocommerce' ),
+				'desc_tip' => (
+					__( 'Enable this if you want to use shipping methods instances (with shipping zones) instead of shipping methods.', 'payment-gateways-by-shipping-for-woocommerce' ) . ' ' .
+					__( 'Save changes after enabling this option.', 'payment-gateways-by-shipping-for-woocommerce' )
+				),
 				'type'     => 'checkbox',
 				'id'       => 'alg_wc_pgbsm_use_shipping_instance',
 				'default'  => 'no',
@@ -178,12 +194,12 @@ class Alg_WC_Payment_Gateways_by_Shipping_Settings_General extends Alg_WC_Paymen
 				'id'       => 'alg_wc_pgbsm_general_options',
 			),
 		);
+
 		$general_settings = array_merge( $general_settings, array(
 			array(
 				'title' => __( 'Payment Gateways', 'payment-gateways-by-shipping-for-woocommerce' ),
 				'type'  => 'title',
-				'desc'  => __( 'If payment gateway is only available for certain methods, set it up here. Leave blank to enable for all methods.',
-					'payment-gateways-by-shipping-for-woocommerce' ),
+				'desc'  => __( 'If payment gateway is only available for certain methods, set it up here. Leave blank to enable for all methods.', 'payment-gateways-by-shipping-for-woocommerce' ),
 				'id'    => 'alg_wc_pgbsm_options',
 			),
 		) );
@@ -192,24 +208,38 @@ class Alg_WC_Payment_Gateways_by_Shipping_Settings_General extends Alg_WC_Paymen
 			$general_settings = array_merge( $general_settings, array(
 				array(
 					'title'             => $gateway->title,
-					'desc'              => ( ! in_array( $key, array( 'bacs', 'cod', 'paypal', 'cheque' ) ) ?
-						apply_filters( 'alg_wc_pgbsm_settings',
-							sprintf( __( 'You will need the "%s" plugin to set the option for the "%s" gateway.', 'payment-gateways-by-shipping-for-woocommerce' ),
+					'desc'              => (
+						! in_array( $key, array( 'bacs', 'cod', 'paypal', 'cheque' ) ) ?
+						apply_filters(
+							'alg_wc_pgbsm_settings',
+							sprintf(
+								/* Translators: %1$s: Plugin link, %2$s: Gateway title. */
+								__( 'You will need the "%1$s" plugin to set the option for the "%2$s" gateway.', 'payment-gateways-by-shipping-for-woocommerce' ),
 								'<a target="_blank" href="https://wpfactory.com/item/payment-gateways-by-shipping-for-woocommerce/">' .
 									__( 'Payment Gateways by Shipping for WooCommerce Pro', 'payment-gateways-by-shipping-for-woocommerce' ) .
 								'</a>',
 								$gateway->title
-							), 'buttons', array( 'section' => $this ) ) :
-						$this->get_select_all_buttons() ),
-					'desc_tip'          => __( 'Enable for shipping methods', 'woocommerce' ),
+							),
+							'buttons',
+							array( 'section' => $this )
+						) :
+						$this->get_select_all_buttons()
+					),
+					'desc_tip'          => __( 'Enable for shipping methods', 'payment-gateways-by-shipping-for-woocommerce' ),
 					'id'                => ( $use_shipping_instance ? 'alg_wc_pgbsm_enable_instance_' . $key : 'alg_wc_pgbsm_enable_' . $key ),
 					'default'           => '',
 					'type'              => 'multiselect',
 					'class'             => 'chosen_select',
 					'css'               => 'width: 100%;',
 					'options'           => $shipping_methods,
-					'custom_attributes' => array_merge( array( 'data-placeholder' => __( 'Select shipping methods', 'woocommerce' ) ),
-						( ! in_array( $key, array( 'bacs', 'cod', 'paypal', 'cheque' ) ) ? apply_filters( 'alg_wc_pgbsm_settings', array( 'disabled' => 'disabled' ), 'array' ) : array() ) ),
+					'custom_attributes' => array_merge(
+						array( 'data-placeholder' => __( 'Select shipping methods', 'payment-gateways-by-shipping-for-woocommerce' ) ),
+						(
+							! in_array( $key, array( 'bacs', 'cod', 'paypal', 'cheque' ) ) ?
+							apply_filters( 'alg_wc_pgbsm_settings', array( 'disabled' => 'disabled' ), 'array' ) :
+							array()
+						)
+					),
 				),
 			) );
 		}
@@ -219,6 +249,7 @@ class Alg_WC_Payment_Gateways_by_Shipping_Settings_General extends Alg_WC_Paymen
 				'id'    => 'alg_wc_pgbsm_options',
 			),
 		) );
+
 		$advanced_settings = array(
 			array(
 				'title'    => __( 'Advanced Options', 'payment-gateways-by-shipping-for-woocommerce' ),
@@ -228,7 +259,7 @@ class Alg_WC_Payment_Gateways_by_Shipping_Settings_General extends Alg_WC_Paymen
 			array(
 				'title'    => __( 'Reset chosen payment method', 'payment-gateways-by-shipping-for-woocommerce' ),
 				'desc'     => __( 'Enable', 'payment-gateways-by-shipping-for-woocommerce' ),
-				'desc_tip' => __( 'Enable this if cart fees (e.g. COD fees) are not removed when payment method becomes unavailable.', 'payment-gateways-by-shipping-for-woocommerce' ),
+				'desc_tip' => __( 'Enable this if cart fees (e.g., COD fees) are not removed when payment method becomes unavailable.', 'payment-gateways-by-shipping-for-woocommerce' ),
 				'id'       => 'alg_wc_pgbsm_reset_payment_method_on_totals',
 				'default'  => 'no',
 				'type'     => 'checkbox',
@@ -238,7 +269,12 @@ class Alg_WC_Payment_Gateways_by_Shipping_Settings_General extends Alg_WC_Paymen
 				'id'       => 'alg_wc_pgbsm_advanced_options',
 			),
 		);
-		return array_merge( $main_settings, $general_settings, $advanced_settings );
+
+		return array_merge(
+			$general_settings,
+			$advanced_settings
+		);
+
 	}
 
 }

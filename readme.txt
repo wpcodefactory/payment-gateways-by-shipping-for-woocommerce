@@ -1,9 +1,9 @@
 === Payment Gateways by Shipping for WooCommerce ===
-Contributors: wpcodefactory, omardabbas, karzin, anbinder, algoritmika, kousikmukherjeeli
-Tags: woocommerce, payment gateways, payment gateway, shipping, woo commerce
+Contributors: wpcodefactory, algoritmika, anbinder, karzin, omardabbas
+Tags: woocommerce, payment gateways, payment gateway, shipping, ecommerce
 Requires at least: 4.4
-Tested up to: 6.6
-Stable tag: 1.4.5
+Tested up to: 6.8
+Stable tag: 1.5.0
 License: GNU General Public License v3.0
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -11,18 +11,22 @@ Set "enable for shipping methods" for WooCommerce payment gateways.
 
 == Description ==
 
-**Payment Gateways by Shipping for WooCommerce** is a lightweight plugin that lets you set the **"enable for shipping methods"** option for WooCommerce payment gateways, i.e. gateways will be shown/hidden on the checkout page depending on which shipping method your customer selects.
+**Payment Gateways by Shipping for WooCommerce** is a lightweight plugin that lets you set the **"enable for shipping methods"** option for WooCommerce payment gateways, i.e., gateways will be shown/hidden on the checkout page depending on which shipping method your customer selects.
 
-You can choose if you want to enable/disable payment gateways by shipping methods or by shipping method instances (e.g. by shipping zones).
+You can choose if you want to enable/disable payment gateways by shipping methods or by shipping method instances (e.g., by shipping zones).
 
-### &#127942; Premium Version ###
+### 🏆 Premium Version ###
 
 The free version allows you to set shipping methods for all four standard payment gateways: Direct bank transfer, Check payments, Cash on delivery, and PayPal. With [Payment Gateways by Shipping for WooCommerce Pro](https://wpfactory.com/item/payment-gateways-by-shipping-for-woocommerce/), you can set shipping methods for any non-standard payment gateway.
 
-### &#128472; Feedback ###
+### 🗘 Feedback ###
 
 * We are open to your suggestions and feedback. Thank you for using or trying out one of our plugins!
 * Visit [plugin site](https://wpfactory.com/item/payment-gateways-by-shipping-for-woocommerce/).
+
+### ℹ More ###
+
+* The plugin is **"High-Performance Order Storage (HPOS)"** compatible.
 
 == Installation ==
 
@@ -31,6 +35,17 @@ The free version allows you to set shipping methods for all four standard paymen
 3. Start by visiting plugin settings at "WooCommerce > Settings > Payment Gateways by Shipping".
 
 == Changelog ==
+
+= 1.5.0 - 26/06/2025 =
+* Dev - Plugin settings moved to the "WPFactory" menu.
+* Dev - WPFactory "Recommendations" added.
+* Dev - WPFactory "Key Manager" added.
+* Dev - "High-Performance Order Storage (HPOS)" compatibility.
+* Dev - PHP v8.2 compatibility (dynamic properties).
+* Dev - Code refactoring.
+* Dev - Coding standards improved.
+* WC tested up to: 9.9.
+* Tested up to: 6.8.
 
 = 1.4.5 - 30/07/2023 =
 * WC tested up to: 9.1.

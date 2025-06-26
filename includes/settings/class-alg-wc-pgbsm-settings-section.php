@@ -2,8 +2,9 @@
 /**
  * Payment Gateways by Shipping for WooCommerce - Section Settings
  *
- * @version 1.1.0
+ * @version 1.5.0
  * @since   1.0.0
+ *
  * @author  Algoritmika Ltd.
  */
 
@@ -14,14 +15,37 @@ if ( ! class_exists( 'Alg_WC_Payment_Gateways_by_Shipping_Settings_Section' ) ) 
 class Alg_WC_Payment_Gateways_by_Shipping_Settings_Section {
 
 	/**
+	 * id.
+	 *
+	 * @version 1.5.0
+	 * @since   1.5.0
+	 */
+	public $id;
+
+	/**
+	 * desc.
+	 *
+	 * @version 1.5.0
+	 * @since   1.5.0
+	 */
+	public $desc;
+
+	/**
 	 * Constructor.
 	 *
 	 * @version 1.1.0
 	 * @since   1.0.0
 	 */
 	function __construct() {
-		add_filter( 'woocommerce_get_sections_alg_wc_pgbsm',              array( $this, 'settings_section' ) );
-		add_filter( 'woocommerce_get_settings_alg_wc_pgbsm_' . $this->id, array( $this, 'get_settings' ), PHP_INT_MAX );
+		add_filter(
+			'woocommerce_get_sections_alg_wc_pgbsm',
+			array( $this, 'settings_section' )
+		);
+		add_filter(
+			'woocommerce_get_settings_alg_wc_pgbsm_' . $this->id,
+			array( $this, 'get_settings' ),
+			PHP_INT_MAX
+		);
 	}
 
 	/**
