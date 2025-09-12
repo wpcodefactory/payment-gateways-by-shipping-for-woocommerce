@@ -1,9 +1,9 @@
 === Payment Gateways by Shipping for WooCommerce ===
-Contributors: wpcodefactory, algoritmika, anbinder, karzin, omardabbas
+Contributors: wpcodefactory, anbinder, karzin, omardabbas
 Tags: woocommerce, payment gateways, payment gateway, shipping, ecommerce
 Requires at least: 4.4
 Tested up to: 6.8
-Stable tag: 1.5.0
+Stable tag: 1.5.1
 License: GNU General Public License v3.0
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -35,6 +35,9 @@ The free version allows you to set shipping methods for all four standard paymen
 3. Start by visiting plugin settings at "WooCommerce > Settings > Payment Gateways by Shipping".
 
 == Changelog ==
+
+= 1.5.1 - 12/09/2025 =
+* WC tested up to: 10.1.
 
 = 1.5.0 - 26/06/2025 =
 * Dev - Plugin settings moved to the "WPFactory" menu.
