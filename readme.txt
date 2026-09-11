@@ -2,8 +2,8 @@
 Contributors: wpcodefactory, anbinder, karzin, omardabbas
 Tags: woocommerce, payment gateways, payment gateway, shipping, ecommerce
 Requires at least: 4.4
-Tested up to: 7.0
-Stable tag: 1.5.2
+Tested up to: 7.1
+Stable tag: 1.6.0
 License: GNU General Public License v3.0
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -15,9 +15,7 @@ Set "enable for shipping methods" for WooCommerce payment gateways.
 
 You can choose if you want to enable/disable payment gateways by shipping methods or by shipping method instances (e.g., by shipping zones).
 
-### 🏆 Premium Version ###
-
-The free version allows you to set shipping methods for all four standard payment gateways: Direct bank transfer, Check payments, Cash on delivery, and PayPal. With [Payment Gateways by Shipping for WooCommerce Pro](https://wpfactory.com/item/payment-gateways-by-shipping-for-woocommerce/), you can set shipping methods for any non-standard payment gateway.
+You can set shipping methods for any payment gateway (including custom gateways).
 
 ### 🗘 Feedback ###
 
@@ -36,9 +34,19 @@ The free version allows you to set shipping methods for all four standard paymen
 
 == Changelog ==
 
+= 1.6.0 - 11/09/2026 =
+* Dev - Free version now can handle any payment gateway.
+* Dev - Code refactoring.
+* Dev - Coding standards improved.
+* Dev - WPFactory Admin Menu - Library updated (to v1.1.2).
+* Dev - WPFactory Cross-Selling - Library updated (to v1.1.5).
+* Dev - WPFactory Key Manager - Library updated (to v1.1.1).
+* WC tested up to: 11.1.
+* Tested up to: 7.1.
+
 = 1.5.2 - 23/05/2026 =
-* Tested up to: 7.0.
 * WC tested up to: 10.7.
+* Tested up to: 7.0.
 
 = 1.5.1 - 12/09/2025 =
 * WC tested up to: 10.1.
@@ -102,8 +110,8 @@ The free version allows you to set shipping methods for all four standard paymen
 = 1.2.0 - 19/03/2020 =
 * Dev - Admin settings - Descriptions updated.
 * Dev - Code refactoring.
-* Tested up to: 5.3.
 * WC tested up to: 4.0.
+* Tested up to: 5.3.
 
 = 1.1.0 - 27/07/2019 =
 * Dev - "PayPal" and "Check payments" payment gateways moved to free version.

@@ -2,46 +2,54 @@
 /**
  * Payment Gateways by Shipping for WooCommerce - Core Class
  *
- * @version 1.5.0
+ * @version 1.6.0
  * @since   1.0.0
  *
- * @author  Algoritmika Ltd.
+ * @author WPFactory
+ *
+ * @package WPFactory\WC_Payment_Gateways_by_Shipping
  */
 
 defined( 'ABSPATH' ) || exit;
 
-if ( ! class_exists( 'Alg_WC_Payment_Gateways_by_Shipping_Core' ) ) :
-
-class Alg_WC_Payment_Gateways_by_Shipping_Core {
+if ( ! class_exists( 'Alg_WC_PGBSM_Core' ) ) :
 
 	/**
-	 * use_shipping_instance.
+	 * Alg_WC_PGBSM_Core class.
 	 *
-	 * @version 1.5.0
-	 * @since   1.5.0
-	 */
-	public $use_shipping_instance;
-
-	/**
-	 * Constructor.
-	 *
-	 * @version 1.5.0
+	 * @version 1.6.0
 	 * @since   1.0.0
-	 *
-	 * @todo    (v1.5.0) block-based checkout compatibility!
 	 */
-	function __construct() {
+	class Alg_WC_PGBSM_Core {
 
-		$this->use_shipping_instance = ( 'yes' === get_option( 'alg_wc_pgbsm_use_shipping_instance', 'no' ) );
+		/**
+		 * Use shipping instance.
+		 *
+		 * @version 1.5.0
+		 * @since   1.5.0
+		 *
+		 * @var bool
+		 */
+		public $use_shipping_instance;
 
-		add_filter(
-			'woocommerce_available_payment_gateways',
-			array( $this, 'available_payment_gateways' ),
-			PHP_INT_MAX,
-			1
-		);
+		/**
+		 * Constructor.
+		 *
+		 * @version 1.6.0
+		 * @since   1.0.0
+		 *
+		 * @todo (v1.5.0) Block-based checkout compatibility!
+		 */
+		public function __construct() {
+			$this->use_shipping_instance = ( 'yes' === get_option( 'alg_wc_pgbsm_use_shipping_instance', 'no' ) );
 
-		if ( 'yes' === get_option( 'alg_wc_pgbsm_reset_payment_method_on_totals', 'no' ) ) {
+			add_filter(
+				'woocommerce_available_payment_gateways',
+				array( $this, 'available_payment_gateways' ),
+				PHP_INT_MAX,
+				1
+			);
+
 			add_action(
 				'woocommerce_before_calculate_totals',
 				array( $this, 'maybe_reset_chosen_payment_method' ),
@@ -50,177 +58,186 @@ class Alg_WC_Payment_Gateways_by_Shipping_Core {
 			);
 		}
 
-	}
+		/**
+		 * Maybe reset chosen payment method.
+		 *
+		 * @version 1.6.0
+		 * @since   1.3.0
+		 *
+		 * @todo (dev) Test with https://wpfactory.com/blog/how-to-add-cart-fees-in-woocommerce-with-php/.
+		 * @todo (dev) `woocommerce_cart_calculate_fees` instead of `woocommerce_before_calculate_totals`?
+		 * @todo (dev) `wc_smart_cod_fee`: `return ( ! in_array( 'cod', array_keys( WC()->payment_gateways->get_available_payment_gateways() ) ) ? 0 : $fee )`?
+		 */
+		public function maybe_reset_chosen_payment_method() {
+			if ( 'yes' !== get_option( 'alg_wc_pgbsm_reset_payment_method_on_totals', 'no' ) ) {
+				return;
+			}
 
-	/**
-	 * maybe_reset_chosen_payment_method.
-	 *
-	 * @version 1.3.0
-	 * @since   1.3.0
-	 *
-	 * @todo    (dev) test with https://wpfactory.com/blog/how-to-add-cart-fees-in-woocommerce-with-php/
-	 * @todo    (dev) `woocommerce_cart_calculate_fees` instead of `woocommerce_before_calculate_totals`?
-	 * @todo    (dev) `wc_smart_cod_fee`: `return ( ! in_array( 'cod', array_keys( WC()->payment_gateways->get_available_payment_gateways() ) ) ? 0 : $fee )`?
-	 */
-	function maybe_reset_chosen_payment_method() {
-		// phpcs:disable WordPress.Security.NonceVerification.Missing
-		if (
-			'' != ( $chosen_payment_method = WC()->session->get( 'chosen_payment_method' ) ) ||
-			isset( $_POST['payment_method'] )
-		) {
-			$available_gateways = WC()->payment_gateways->get_available_payment_gateways();
-			$available_gateways = array_keys( $available_gateways );
+			// phpcs:disable WordPress.Security.NonceVerification.Missing
+			$chosen_payment_method = (string) WC()->session->get( 'chosen_payment_method' );
 			if (
-				isset( $_POST['payment_method'] ) &&
-				! in_array( $_POST['payment_method'], $available_gateways )
+				'' !== $chosen_payment_method ||
+				isset( $_POST['payment_method'] )
 			) {
-				$_POST['payment_method'] = '';
+				$available_gateways = WC()->payment_gateways->get_available_payment_gateways();
+				$available_gateways = array_keys( $available_gateways );
+				if (
+					isset( $_POST['payment_method'] ) &&
+					! in_array( $_POST['payment_method'], $available_gateways, true )
+				) {
+					$_POST['payment_method'] = '';
+				}
+				if (
+					'' !== $chosen_payment_method &&
+					! in_array( $chosen_payment_method, $available_gateways, true )
+				) {
+					WC()->session->set( 'chosen_payment_method', '' );
+				}
 			}
-			if (
-				'' != $chosen_payment_method &&
-				! in_array( $chosen_payment_method, $available_gateways )
-			) {
-				WC()->session->set( 'chosen_payment_method', '' );
-			}
+			// phpcs:enable WordPress.Security.NonceVerification.Missing
 		}
-		// phpcs:enable WordPress.Security.NonceVerification.Missing
-	}
 
-	/**
-	 * available_payment_gateways.
-	 *
-	 * @version 1.5.0
-	 * @since   1.0.0
-	 *
-	 * @todo    (dev) optionally `maybe_reset_chosen_payment_method()` right after `unset()`?
-	 */
-	function available_payment_gateways( $available_gateways ) {
-		foreach ( $available_gateways as $key => $gateway ) {
-			$enable_for_methods = get_option(
-				'alg_wc_pgbsm_enable_' . ( $this->use_shipping_instance ? 'instance_' : '' ) . $key,
-				''
-			);
-			if (
-				! empty( $enable_for_methods ) &&
-				! $this->check_if_enabled_for_methods( $key, $enable_for_methods )
-			) {
-				unset( $available_gateways[ $key ] );
+		/**
+		 * Available payment gateways.
+		 *
+		 * @version 1.5.0
+		 * @since   1.0.0
+		 *
+		 * @param array $available_gateways Array of available payment gateways.
+		 *
+		 * @return array Modified array of available payment gateways.
+		 *
+		 * @todo (dev) Optionally `maybe_reset_chosen_payment_method()` right after `unset()`?
+		 */
+		public function available_payment_gateways( $available_gateways ) {
+			foreach ( $available_gateways as $key => $gateway ) {
+				$enable_for_methods = get_option(
+					'alg_wc_pgbsm_enable_' . ( $this->use_shipping_instance ? 'instance_' : '' ) . $key,
+					''
+				);
+				if (
+					! empty( $enable_for_methods ) &&
+					! $this->check_if_enabled_for_methods( $key, $enable_for_methods )
+				) {
+					unset( $available_gateways[ $key ] );
+				}
 			}
+			return $available_gateways;
 		}
-		return $available_gateways;
-	}
 
-	/**
-	 * check_if_enabled_for_methods.
-	 *
-	 * @version 1.2.1
-	 * @since   1.0.0
-	 *
-	 * @see     https://woocommerce.github.io/code-reference/classes/WC-Gateway-COD.html#method_is_available
-	 *
-	 * @todo    (dev) do we really need to check all the standard stuff like `WC()->cart->needs_shipping()` etc.?
-	 * @todo    (dev) cache result?
-	 */
-	function check_if_enabled_for_methods( $gateway_key, $enable_for_methods ) {
+		/**
+		 * Check if enabled for methods.
+		 *
+		 * @version 1.6.0
+		 * @since   1.0.0
+		 *
+		 * @param string $gateway_key        The payment gateway key.
+		 * @param array  $enable_for_methods The enabled shipping methods for the gateway.
+		 *
+		 * @see https://woocommerce.github.io/code-reference/classes/WC-Gateway-COD.html#method_is_available
+		 *
+		 * @todo (dev) Do we really need to check all the standard stuff like `WC()->cart->needs_shipping()` etc.?
+		 * @todo (dev) Cache result?
+		 */
+		public function check_if_enabled_for_methods( $gateway_key, $enable_for_methods ) {
+			$order          = null;
+			$needs_shipping = false;
 
-		$order          = null;
-		$needs_shipping = false;
+			// Test if shipping is needed first.
+			if ( WC()->cart && WC()->cart->needs_shipping() ) {
+				$needs_shipping = true;
+			} elseif ( is_page( wc_get_page_id( 'checkout' ) ) && 0 < get_query_var( 'order-pay' ) ) {
+				$order_id = absint( get_query_var( 'order-pay' ) );
+				$order    = wc_get_order( $order_id );
 
-		// Test if shipping is needed first
-		if ( WC()->cart && WC()->cart->needs_shipping() ) {
-			$needs_shipping = true;
-		} elseif ( is_page( wc_get_page_id( 'checkout' ) ) && 0 < get_query_var( 'order-pay' ) ) {
-			$order_id = absint( get_query_var( 'order-pay' ) );
-			$order    = wc_get_order( $order_id );
-
-			// Test if order needs shipping.
-			if ( 0 < sizeof( $order->get_items() ) ) {
-				foreach ( $order->get_items() as $item ) {
-					$_product = $order->get_product_from_item( $item );
-					if ( $_product && $_product->needs_shipping() ) {
-						$needs_shipping = true;
-						break;
+				// Test if order needs shipping.
+				if ( count( $order->get_items() ) > 0 ) {
+					foreach ( $order->get_items() as $item ) {
+						$_product = $order->get_product_from_item( $item );
+						if ( $_product && $_product->needs_shipping() ) {
+							$needs_shipping = true;
+							break;
+						}
 					}
 				}
 			}
-		}
 
-		$needs_shipping = apply_filters( 'woocommerce_cart_needs_shipping', $needs_shipping );
+			$needs_shipping = apply_filters( 'woocommerce_cart_needs_shipping', $needs_shipping ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 
-		// Check methods
-		if ( ! empty( $enable_for_methods ) && $needs_shipping ) {
+			// Check methods.
+			if ( ! empty( $enable_for_methods ) && $needs_shipping ) {
 
-			// Only apply if all packages are being shipped via chosen methods, or order is virtual
-			$chosen_shipping_methods_session = WC()->session->get( 'chosen_shipping_methods' );
+				// Only apply if all packages are being shipped via chosen methods, or order is virtual.
+				$chosen_shipping_methods_session = WC()->session->get( 'chosen_shipping_methods' );
 
-			if ( isset( $chosen_shipping_methods_session ) ) {
-				$chosen_shipping_methods = array_unique( $chosen_shipping_methods_session );
-			} else {
-				$chosen_shipping_methods = array();
-			}
-
-			$check_method = false;
-
-			if ( is_object( $order ) ) {
-				if ( $order->shipping_method ) {
-					$check_method = $order->shipping_method;
+				if ( isset( $chosen_shipping_methods_session ) ) {
+					$chosen_shipping_methods = array_unique( $chosen_shipping_methods_session );
+				} else {
+					$chosen_shipping_methods = array();
 				}
 
-			} elseif ( empty( $chosen_shipping_methods ) || sizeof( $chosen_shipping_methods ) > 1 ) {
 				$check_method = false;
-			} elseif ( sizeof( $chosen_shipping_methods ) == 1 ) {
-				$check_method = $chosen_shipping_methods[0];
-			}
 
-			if ( ! $check_method ) {
-				return false;
-			}
-
-			$found = false;
-
-			// Shipping method instance
-			if ( $this->use_shipping_instance ) {
-				if ( 'jem_table_rate_' === substr( $check_method, 0, 15 ) ) {
-					// https://wordpress.org/plugins/woocommerce-easy-table-rate-shipping/
-					$check_method = explode( '_', $check_method );
-					if ( ! isset( $check_method[3] ) || ! is_numeric( $check_method[3] ) ) {
-						return false;
-					} else {
-						$check_method = $check_method[3];
+				if ( is_object( $order ) ) {
+					if ( $order->shipping_method ) {
+						$check_method = $order->shipping_method;
 					}
-				} else {
-					$check_method = explode( ':', $check_method, 2 );
-					if ( ! isset( $check_method[1] ) || ! is_numeric( $check_method[1] ) ) {
-						return false;
-					} else {
-						$check_method = $check_method[1];
-					}
+				} elseif ( empty( $chosen_shipping_methods ) || count( $chosen_shipping_methods ) > 1 ) {
+					$check_method = false;
+				} elseif ( 1 === count( $chosen_shipping_methods ) ) {
+					$check_method = $chosen_shipping_methods[0];
 				}
-			}
 
-			// Final check
-			foreach ( $enable_for_methods as $method_id ) {
+				if ( ! $check_method ) {
+					return false;
+				}
+
+				$found = false;
+
+				// Shipping method instance.
 				if ( $this->use_shipping_instance ) {
-					if ( $check_method == $method_id ) {
-						return true;
+					if ( 'jem_table_rate_' === substr( $check_method, 0, 15 ) ) {
+						/**
+						 * Table Rate Shipping for WooCommerce by WebFactory.
+						 *
+						 * @see https://wordpress.org/plugins/woocommerce-easy-table-rate-shipping/
+						 */
+						$check_method = explode( '_', $check_method );
+						if ( ! isset( $check_method[3] ) || ! is_numeric( $check_method[3] ) ) {
+							return false;
+						} else {
+							$check_method = $check_method[3];
+						}
+					} else {
+						$check_method = explode( ':', $check_method, 2 );
+						if ( ! isset( $check_method[1] ) || ! is_numeric( $check_method[1] ) ) {
+							return false;
+						} else {
+							$check_method = $check_method[1];
+						}
 					}
-				} else {
-					if ( strpos( $check_method, $method_id ) === 0 ) {
+				}
+
+				// Final check.
+				foreach ( $enable_for_methods as $method_id ) {
+					if ( $this->use_shipping_instance ) {
+						if ( $check_method === $method_id ) {
+							return true;
+						}
+					} elseif ( strpos( $check_method, $method_id ) === 0 ) {
 						return true;
 					}
 				}
+
+				if ( ! $found ) {
+					return false;
+				}
 			}
 
-			if ( ! $found ) {
-				return false;
-			}
+			return true;
 		}
-
-		return true;
 	}
-
-}
 
 endif;
 
-return new Alg_WC_Payment_Gateways_by_Shipping_Core();
+return new Alg_WC_PGBSM_Core();
