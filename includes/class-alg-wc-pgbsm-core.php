@@ -39,6 +39,7 @@ if ( ! class_exists( 'Alg_WC_PGBSM_Core' ) ) :
 		 * @since   1.0.0
 		 *
 		 * @todo (v1.5.0) Block-based checkout compatibility!
+		 * @todo (v1.6.0) Check "Local pickup" (https://example.com/wp-admin/admin.php?page=wc-settings&tab=shipping&section=pickup_location).
 		 */
 		public function __construct() {
 			$this->use_shipping_instance = ( 'yes' === get_option( 'alg_wc_pgbsm_use_shipping_instance', 'no' ) );

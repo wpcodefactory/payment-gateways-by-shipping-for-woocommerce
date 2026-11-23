@@ -3,7 +3,8 @@ Contributors: wpcodefactory, anbinder, karzin, omardabbas
 Tags: woocommerce, payment gateways, payment gateway, shipping, ecommerce
 Requires at least: 4.4
 Tested up to: 7.1
-Stable tag: 1.6.0
+Requires PHP: 7.4
+Stable tag: 1.6.1
 License: GNU General Public License v3.0
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -33,6 +34,12 @@ You can set shipping methods for any payment gateway (including custom gateways)
 3. Start by visiting plugin settings at "WooCommerce > Settings > Payment Gateways by Shipping".
 
 == Changelog ==
+
+= 1.6.1 - 23/11/2026 =
+* Dev - WPFactory Admin Menu - Library updated (to v1.1.4).
+* Dev - WPFactory Cross-Selling - Library updated (to v1.1.7).
+* WC tested up to: 11.3.
+* Requires PHP: 7.4.
 
 = 1.6.0 - 11/09/2026 =
 * Dev - Free version now can handle any payment gateway.
